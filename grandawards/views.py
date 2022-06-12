@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from .forms import UserRegisterForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
@@ -7,11 +7,23 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .forms import ProfileForm,NewProjectForm
 from .models import *
+from .serializers import ProfileSerializer
+
 
 # Create your views here.
 def index(request):
     projects=Project.objects.all()
     return render(request,'index.html',{'projects':projects})
+
+#an api to handle the requests
+def profile_list(request):
+    #get all profiles
+    profiles = Profile.objects.all()
+    #serialize them
+    serializer = ProfileSerializer(profiles, many=True)
+    #return json
+    return JsonResponse({'profiles':serializer.data})
+
 
 def register(request):
     
