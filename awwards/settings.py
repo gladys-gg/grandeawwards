@@ -137,8 +137,12 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#setting up the cloudinary media
+cloudinary.config(
+    cloud_name = "deqjh7nzg", 
+    api_key = "215885311299544", 
+    api_secret = "nu9Z6skg5fsat9AYSvXR56ER7u0" 
+)
 
 LOGIN_REDIRECT_URL = 'index'
 
