@@ -8,6 +8,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE, null=True)
     fullname = models.CharField(max_length=100,blank=True)
     bio= models.TextField()
+    location = models.CharField(max_length=200, null=True, blank=True)
+    url = models.URLField(max_length=200, null=True, blank=True)    
 
     def save_profile(self):
         self.save()
