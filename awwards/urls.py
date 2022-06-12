@@ -15,8 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from grandawards.views import UserProfile
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('grandawards.urls'))
+    path('',include('grandawards.urls')),
+    
+        # profile
+    path('<username>/', UserProfile, name='profile'),
+    path('<username>/saved/', UserProfile, name='profilefavourite'),
 ]
