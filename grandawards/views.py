@@ -5,10 +5,13 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .forms import ProfileForm
-
+from .forms import ProfileForm,NewProjectForm
+from .models import *
 
 # Create your views here.
+def index(request):
+    projects=Project.objects.all()
+    return render(request,'index.html',{'projects':projects})
 
 def register(request):
     
