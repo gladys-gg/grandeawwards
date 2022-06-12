@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm, widgets
-from .models import Profile
+from .models import Profile,Project
 
 
 class UserRegisterForm(UserCreationForm):
@@ -25,3 +25,8 @@ class ProfileForm(ModelForm):
             'fullname': forms.TextInput(attrs={'class':'form-control'}),
             'bio': forms.Textarea(attrs={'class':'form-control'}),
         }
+
+class NewProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        exclude = ['user']
