@@ -18,6 +18,24 @@ def index(request):
     projects=Project.objects.all()
     return render(request,'index.html',{'projects':projects})
 
+def UserProfile(request,user_id):
+        profile=Profile.objects.get(id=user_id)
+        context = {'profile':profile}
+        return render(request, 'profile.html', context)
+    
+def EditProfile(request):
+    current_user=request.user
+    profile = Profile.objects.filter(id=current_user.id).first()
+    if request.method == 'POST':
+        profileform = ProfileForm(request.POST,request.FILES,instance=profile)
+        if  profileform.is_valid:
+            profileform.save(commit=False)
+            profileform.user=request.user
+            profileform.save()
+            return redirect('index')
+    else:
+        form=ProfileForm(instance=profile)
+    return render(request,'editprofile.html',{'form':form})
 #an api to handle the requests
 @api_view(['GET','POST'])
 def profile_list(request, format=None):
@@ -52,6 +70,21 @@ def profile_detail(request,id, format=None):
     elif request.method =='DELETE':
         profile.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    
+def NewProject(request):
+    user = Profile.objects.get(user=request.user)
+    if request.method == "POST":
+        form=NewProjectForm(request.POST, request.FILES)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.user = user
+            project.save()
+            return redirect('index')
+        else:
+            form=NewProjectForm()
+        return render(request, 'newproject.html', {"form":form, "user":user})
+    
         
         
 def register(request):
