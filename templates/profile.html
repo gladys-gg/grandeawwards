@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Metadata -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="George W. Park">
+    <meta name="description" content="This project demonstrates how CSS grid (with flexbox and float fallback) can be used to re-create the layout of an Instagram profile page.">
+
+    <!-- Title -->
+    <title>Awwards Profile Layout</title>
+
+</head>
+<body>
+
+    <header>
+        <br><br><br>
+        <div class="container">
+        
+
+            <div class="profile ">
+            <div class="row">
+
+                <div class="col-md-4 profile-image">
+
+                    <img src="{{profile.profile_pic.url}}" alt="" style="width: 200px; height: 200px;">
+
+                </div>
+
+                <div class="profile-user-settings col">
+
+                    {% if request.user.is_authenticated and request.user == profile.user %}
+                    <a style="text-decoration: none;" href="{% url 'editprofile' %}" class="btn profile-edit-btn">Edit Profile</a>
+                    <a style="text-decoration: none;" href="{% url 'sign-out' %}" class="btn profile-edit-btn">Logout</a>
+                    <br>
+                    {% endif %}
+                        {% if profile.first_name %}
+                        <h6 class="profile-user-name">{{profile.fullname}}</h6> <br>
+                        {% endif %}
+                        <h5 style="font-size: 15px;" class="profile-user-name">@{{profile.user.username}}</h5>
+
+
+                    {% if profile.bio %}
+                    <p><span class="profile-real-name"></span>◉Bio: {{profile.bio}}</p>
+                    {% endif %}
+                    {% if profile.location %}
+                    <p><span class="profile-real-name"></span>◉Location:  {{profile.location}}</p>
+                    {% endif %}
+                    {% if profile.url %}
+                    <p><span class="profile-real-name"></span>◉Website: <a href="{{profile.url}}">{{profile.url}}</a></p>
+                    {% endif %}
+                    <br><br>
+                    <div class="profile-user-settings">
+                        <a  href="{% url 'profile' profile.user %}"  class="btns profiele-edit-btn">Projects</a>
+                    </div>
+                        
+                        
+                    
+            </div>
+
+                
+
+                <div class="profile-bio">
+                    
+                </div>
+            </div>
+
+
+                <div class="profile-stats">
+
+                    <ul>
+                        <li><span class="profile-stat-count">{{projects_count}}</span> projects</li>
+
+                    </ul>
+                    <br>
+                    
+                </div>
+
+            </div>
+            <!-- End of profile section -->
+
+        </div>
+        <!-- End of container -->
+
+    </header>
+
+    {% endblock content %}
