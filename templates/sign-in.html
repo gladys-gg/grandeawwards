@@ -1,0 +1,21 @@
+<div class="container">
+<div class="full">
+    <form action="{% url 'sign-in'%}" method="POST">
+    {%csrf_token%}
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Username</label>
+        <input type="text" class="form-control" name="username" aria-describedby="">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input type="password" class="form-control" name="password">
+    </div>
+    <button type="submit" class="btn btn-dark">Submit</button>
+
+    </form>
+</div>  
+
+<div class="sign-up">
+Don't have an account? <a href="{% url 'sign-up' %}">Sign up</a>
+</div>
+</div>
