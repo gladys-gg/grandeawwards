@@ -8,6 +8,9 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import ProfileForm,NewProjectForm
 from .models import *
 from .serializers import ProfileSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 
 
 # Create your views here.
@@ -16,15 +19,41 @@ def index(request):
     return render(request,'index.html',{'projects':projects})
 
 #an api to handle the requests
-def profile_list(request):
+@api_view(['GET','POST'])
+def profile_list(request, format=None):
     #get all profiles
-    profiles = Profile.objects.all()
-    #serialize them
-    serializer = ProfileSerializer(profiles, many=True)
-    #return json
-    return JsonResponse({'profiles':serializer.data})
+    if request.method =='GET':
+        profiles = Profile.objects.all()
+        #serialize them
+        serializer = ProfileSerializer(profiles, many=True)
+        #return json
+        return Response(serializer.data)
+    if request.method =='POST':
+        serializer = ProfileSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-
+@api_view(['GET','PUT','DELETE'])
+def profile_detail(request,id, format=None):
+    try:
+        Profile.objects.get(pk=id)
+    except Profile.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method =='GET':
+        serializer = ProfileSerializer(profile)
+        return Response(serializer.data)
+    elif request.method =='PUT':
+        serializer = ProfileSerializer(profile, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method =='DELETE':
+        profile.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        
+        
 def register(request):
     
     if request.method == "POST":
