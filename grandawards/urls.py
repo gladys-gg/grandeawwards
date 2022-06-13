@@ -10,17 +10,22 @@ urlpatterns = [
     path('',views.index, name='index'),
     #profile paths
     path('profiles/',views.profile_list),
+    path('profiles/<int:id>', views.profile_detail),
         # Profile Section
     path('profile/<int:user_id>', views.UserProfile, name='profile'),
     path('profile/edit', views.EditProfile, name="editprofile"),
     # User Authentication
-    path('profiles/<int:id>', views.profile_detail),
+
     path('sign-up/',views.register,name='sign-up'),
     path('accounts/sign-in/',views.signin,name='sign-in'),
     path('sign-out/', views.signout, name='sign-out'),
     
     #project
     path('newproject', views.NewProject, name='newproject'),
+        #profile paths
+    path('projects/',views.project_list),
+    path('projects/<int:id>', views.project_detail),
+    
 
 ]
 
