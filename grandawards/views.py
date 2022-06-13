@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .forms import ProfileForm,NewProjectForm
 from .models import *
-from .serializers import ProfileSerializer
+from .serializers import ProfileSerializer,ProjectSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -36,7 +36,7 @@ def EditProfile(request):
     else:
         form=ProfileForm(instance=profile)
     return render(request,'editprofile.html',{'form':form})
-#an api to handle the requests
+#an api to handle the profile requests
 @api_view(['GET','POST'])
 def profile_list(request, format=None):
     #get all profiles
@@ -69,6 +69,42 @@ def profile_detail(request,id, format=None):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method =='DELETE':
         profile.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    
+#an api to handle the project requests
+@api_view(['GET','POST'])
+def project_list(request, format=None):
+    #get all profiles
+    if request.method =='GET':
+        projects = Project.objects.all()
+        #serialize them
+        serializer = ProjectSerializer(projects, many=True)
+        #return json
+        return Response(serializer.data)
+    if request.method =='POST':
+        serializer = ProjectSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@api_view(['GET','PUT','DELETE'])
+def project_detail(request,id, format=None):
+    try:
+        Project.objects.get(pk=id)
+    except Project.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method =='GET':
+        serializer = ProjectSerializer(project)
+        return Response(serializer.data)
+    elif request.method =='PUT':
+        serializer = ProjectSerializer(project, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method =='DELETE':
+        project.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     
