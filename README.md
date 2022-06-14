@@ -11,7 +11,7 @@ This is a Python Application where a user can view a different projects, add a n
 * View different projects from the Application
 * Click a single project to expand it and view the details of that post
 * Search for projects by the title.
-* Rate a project accordingto usability, content and design.
+* Rate a project according to usability, content and design.
 * Update profile.
 
 
@@ -61,7 +61,7 @@ Then run server with the above command
 
 ### Contact Information
 * Email : gladysmwangi04@yahoo.com
-* Whatsapp : [link](+254710724224)
+* Whatsapp : +254710724224
 
 ## License
 
