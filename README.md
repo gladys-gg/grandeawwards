@@ -61,7 +61,7 @@ Then run server with the above command
 
 ### Contact Information
 * Email : gladysmwangi04@yahoo.com
-* Whatsapp : [link]+254710724224
+* Whatsapp : [link](+254710724224)
 
 ## License
 
