@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'grandawards',
     'rest_framework',
     'cloudinary',
+    
 ]
 
 MIDDLEWARE = [
@@ -146,9 +147,9 @@ cloudinary.config(
 
 LOGIN_REDIRECT_URL = 'index'
 
-LOGOUT_REDIRECT_URL = 'sign-in'
+LOGOUT_REDIRECT_URL = 'index'
 
-LOGIN_URL = ''
+LOGIN_URL ='sign-in'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
