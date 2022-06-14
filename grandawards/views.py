@@ -1,12 +1,16 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from django.http import HttpResponseRedirect, JsonResponse
 from .forms import UserRegisterForm
+from django.urls import reverse, resolve
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm 
 from .forms import ProfileForm,NewProjectForm
 from .models import *
+from django.contrib import messages
 from .serializers import ProfileSerializer,ProjectSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -18,24 +22,54 @@ def index(request):
     projects=Project.objects.all()
     return render(request,'index.html',{'projects':projects})
 
-def UserProfile(request,user_id):
-        profile=Profile.objects.get(id=user_id)
-        context = {'profile':profile}
-        return render(request, 'profile.html', context)
-    
-def EditProfile(request):
-    current_user=request.user
-    profile = Profile.objects.filter(id=current_user.id).first()
-    if request.method == 'POST':
-        profileform = ProfileForm(request.POST,request.FILES,instance=profile)
-        if  profileform.is_valid:
-            profileform.save(commit=False)
-            profileform.user=request.user
-            profileform.save()
-            return redirect('index')
+@login_required
+def UserProfile(request, username):
+    Profile.objects.get_or_create(user=request.user)
+    user = get_object_or_404(User, username=username)
+    profile = Profile.objects.get(user=user)
+    url_name = resolve(request.path).url_name
+    projects = Project.objects.filter(profile=profile)
+    if url_name == 'profile':
+        projects = Project.objects.filter(profile=profile)
     else:
-        form=ProfileForm(instance=profile)
-    return render(request,'editprofile.html',{'form':form})
+        projects = profile.favourite.all()
+    
+    # Profile Stats
+    projects_count = Project.objects.filter(profile=profile).count()
+
+    context = {
+        'projects': projects,
+        'profile':profile,
+        'projects_count':projects_count,
+
+    }
+    return render(request, 'profile.html', context)
+
+
+@login_required
+def EditProfile(request):
+    user = request.user.id
+    profile = Profile.objects.get(user_id=user)
+
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            profile.profile_pic = form.cleaned_data.get('profile_pic')
+            profile.fullname = form.cleaned_data.get('fullname')
+            profile.location = form.cleaned_data.get('location')
+            profile.url = form.cleaned_data.get('url')
+            profile.bio = form.cleaned_data.get('bio')
+            profile.save()
+            return redirect('profile', profile.user.username)
+    else:
+        form = ProfileForm(instance=request.user.profile)
+
+    context = {
+        'form':form,
+    }
+    return render(request, 'editprofile.html', context)
+
+
 #an api to handle the profile requests
 @api_view(['GET','POST'])
 def profile_list(request, format=None):
@@ -107,20 +141,32 @@ def project_detail(request,id, format=None):
         project.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-    
+
+@login_required   
 def NewProject(request):
     user = Profile.objects.get(user=request.user)
     if request.method == "POST":
         form=NewProjectForm(request.POST, request.FILES)
         if form.is_valid():
-            project = form.save(commit=False)
-            project.user = user
-            project.save()
+            data = form.save(commit=False)
+            data.profile = user
+            data.user=request.user.profile
+            data.save()
             return redirect('index')
         else:
             form=NewProjectForm()
-        return render(request, 'newproject.html', {"form":form, "user":user})
-    
+
+    return render(request, 'newproject.html',{'form':NewProjectForm})
+
+def search_results(request):
+    if 'project' in request.GET and request.GET["project"]:
+        search_term = request.GET.get("project")
+        searched_projects = Project.search_by_title(search_term).all()
+        message = f"{search_term}"
+        return render(request, 'search.html', {"message":message,"projects": searched_projects})
+    else:
+        message = "You haven't searched for any projects yet"
+    return render(request, 'search.html', {'message': message})
         
         
 def register(request):
@@ -145,26 +191,10 @@ def register(request):
     context = {
         'form': form,
     }
-    return render(request, 'sign-up.html', context)
+    return render(request, 'registration/sign-up.html', context)
 
-def signin(request):
-
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('index')
-        
-        else:
-            messages.success(request,('You information is not valid'))
-            return redirect('sign-in')
-
-    else:
-        return render(request,'sign-in.html')
 
 def signout(request):  
     logout(request) 
 
-    return redirect('sign-in')
+    return redirect('index')

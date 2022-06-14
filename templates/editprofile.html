@@ -10,27 +10,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <script src="https://kit.fontawesome.com/fc1e235b2e.js"></script>
-<link rel="stylesheet" href="{% static 'assets2/style.css' %}">
-<title>Instagram Login Form</title>
+<title>Awwards Profile Form</title>
 </head>
 
 <body>
 
-<div id="wrapper">
-    <div class="container">
-    <div class="phone-app-ddemo"></div>
-    <div class="form-data">
+
+    <div class="container m-4">
+    <div class="phone-app-ddemo">
+    <div class="form-data card" style="align-items: center;margin-left: 30px;border:1px solid #ccc; border-radius: 5px;">
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
         <div class="logo">
-            <h3 style="padding: 20px; font-size: 20px;">Edit Profile</h3>
+            <h3 style="padding: 20px; font-size: 20px;color: rgb(76, 164, 223);">Edit Profile</h3>
         </div>
-        {{form.profile_pic}} <br>
-        {{form.full_name}} <br>
-        {{form.bio}} <br>
-        {{form.location}} <br>
-        {{form.url}} <br>
-        <button class="form-btn" type="submit">Update Profile</button>
+            {{form.as_p}}
+        <button class="btn btn-dark mb-5" type="submit">Update Profile</button>
         <!-- <a href="index.html" class="form-btn" type="submit">Log in</a> -->
         
         </form>
@@ -38,13 +33,6 @@
     </div>
     </div>
 
-    <footer>
-        <div class="container text-center">
-            <div class="copyright-notice">
-            &copy 2022 Instagram
-            </div>
-        </div>
-    </footer>
 
 </div>
 
@@ -52,3 +40,4 @@
 
 </html>
 {% endblock content %}
+

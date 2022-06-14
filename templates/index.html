@@ -4,28 +4,54 @@
 
 {% block content %}
 <!-- Background image -->
-<div class="p-5 mt-4">
-    <p class="text-center text-muted" style="font-weight: light;">
-    The awwards of design, creativity and innovation on the internet</p>
-</div>
-<div id="intro" class="bg-image">
+
+<div id="intro" class="bg-image mt-5">
     <div class="container d-flex align-items-center justify-content-center text-center h-100">
     <div class="text-white">
         <h1 class="mb-3">Grande Awwards</h1>
         <h5 class="mb-4">Web Design ~ Usability ~ Creativity ~ Content</h5>
+        <div class="text">
+            <p class="text-center text-muted" style="font-weight: light;">
+            The awwards of design, creativity and innovation on the internet</p>
+        </div>
         <div class="input-group align-items-center justify-content-center">
-                <div class="form-outline">
-                <input type="search" id="form1" class="form-control" />
-                <label class="form-label" for="form1">Search Project</label>
-                </div>
-                <button type="button" class="btn btn-primary">
-                <i class="fas fa-search"></i>
-                </button>
+            
+                
+            
+            <form class="d-flex form-inline my-2 my-lg-0" action="{% url 'search' %}">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="project">
+                <button class="btn btn-outline-info" type="submit">Search</button>
+            </form>
+            
         </div>
     </div>
     </div>
 ]
 </div>
 <!-- Background image -->
+<div class="projectsAvailable">
+    <h3 class="text-center p-2 mt-2">Available Projects</h3>
+    <div class="row m-3">
+        {%for project in projects%}
+        <div class="col-md-4 project mt-2">
+            <div class="card mt-2 cardProject" style="width: 100%; border:1px solid #ccc; border-radius: 5px;">
+                <img src="{{project.project_image.url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{project.title}}</h5>
+                    <p class="card-text">{{project.description}}</p>
+                    <p class="card-text"><b>Project by: </b>{{project.profile}}</p>
+                    <div class="styleList">
+                        <ul class="btnProject">
+                            <a href="{{project.link}}" class="btn btn-info me-3" target="_blank">Project Link</a>
+                            <a href="#" class="btn btn-info">Project Rating</a>
+                        </ul>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {%endfor%}
+    </div>
+</div>
 
 {% endblock content %}
