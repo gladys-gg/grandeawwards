@@ -39,11 +39,11 @@
                     <a style="text-decoration: none;" href="{% url 'sign-out' %}" class="btn profile-edit-btn">Logout</a>
                     <br>
                     {% endif %}
-                        {% if profile.first_name %}
-                        <h6 class="profile-user-name">{{profile.fullname}}</h6> <br>
+                        {% if profile.fullname %}
+                        <h6 class="profile-user-name mt-3">Name: {{profile.fullname}}</h6>
                         {% endif %}
-                        <h5 style="font-size: 15px;" class="profile-user-name">@{{profile.user.username}}</h5>
-
+                        <h5 style="font-size: 15px;" class="profile-user-name">Username: @{{profile.user.username}}</h5>
+                        <h5 style="font-size: 15px;" class="profile-user-name">Email: {{profile.user.email}}</h5>
 
                     {% if profile.bio %}
                     <p><span class="profile-real-name"></span>◉Bio: {{profile.bio}}</p>
@@ -54,7 +54,13 @@
                     {% if profile.url %}
                     <p><span class="profile-real-name"></span>◉Website: <a href="{{profile.url}}">{{profile.url}}</a></p>
                     {% endif %}
-                    <br><br>
+                    <br>
+                            <p><span class="profile-stat-count">{{projects_count}}</span> projects</li></p>
+    
+                        
+                        
+                        
+                    
                     <div class="profile-user-settings">
                         <a  href="{% url 'profile' profile.user %}"  class="btns profiele-edit-btn">Projects</a>
                     </div>
@@ -71,15 +77,7 @@
             </div>
 
 
-                <div class="profile-stats">
 
-                    <ul>
-                        <li><span class="profile-stat-count">{{projects_count}}</span> projects</li>
-
-                    </ul>
-                    <br>
-                    
-                </div>
 
             </div>
             <!-- End of profile section -->
