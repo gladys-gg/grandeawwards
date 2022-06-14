@@ -68,12 +68,6 @@
                         
                     
             </div>
-
-                
-
-                <div class="profile-bio">
-                    
-                </div>
             </div>
 
 
@@ -87,4 +81,28 @@
 
     </header>
 
+
+    <div class="container">
+
+        <div class="gallery">
+            
+            {% for project in projects %}
+            <div class="col-md-4 project m-2">
+            <a href="{{projects.link}}"><div class="gallery-item" tabindex="0">
+
+                <img src="{{ projects.project_image.url }}" class="gallery-image" alt="{{projects.description}}" style="width: 500px; height: 300px; object-fit: cover;">
+            </div></a>
+            {% endfor %}
+        </div>
+
+            
+
+            
+
+        </div>
+        <!-- End of gallery -->
+
+
+    </div>
+    <!-- End of container -->
     {% endblock content %}
