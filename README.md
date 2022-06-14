@@ -7,6 +7,9 @@
 
 This is a Python Application where a user can view a different projects, add a new project also rate them according to content,usability and design.
 
+![project2](https://user-images.githubusercontent.com/73462428/173698138-928be065-9b2a-452a-8172-100158db6340.png)
+
+
 ### User Story
 * View different projects from the Application
 * Click a single project to expand it and view the details of that post
@@ -14,11 +17,18 @@ This is a Python Application where a user can view a different projects, add a n
 * Rate a project according to usability, content and design.
 * Update profile.
 
+![project3](https://user-images.githubusercontent.com/73462428/173698192-c38818a1-bc18-4dc4-86e0-9309d1998710.png)
+
+
 
 ### Requirements
 
 * Python 3
 * Visual Studio Code
+
+![project1](https://user-images.githubusercontent.com/73462428/173698261-3bc98e06-94b0-4f94-a75d-f603e26d3180.png)
+
+
 
 ### Getting Files
 
