@@ -10,7 +10,7 @@ This is a Python Application where a user can view a different projects, add a n
 ### User Story
 * View different projects from the Application
 * Click a single project to expand it and view the details of that post
-* Search for projects by different names.
+* Search for projects by the title.
 * Rate a project accordingto usability, content and design.
 * Update profile.
 
