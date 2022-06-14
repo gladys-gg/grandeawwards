@@ -1,29 +1,39 @@
-{% extends 'base.html' %}
+
+
+{%extends 'base.html'%} 
 {% block content %}
-    {{block.super}} 
-<div class="container">
-    <div class="row" style="font-family: Arial, Helvetica, sans-serif;color:#535250">
-        {% if projects%}
-            <h3>Found {{ projects|length }} projects: {{message}}</h3>
-        {% else %}
-            <h3> Found 0 projects by the search term: {{message}}</h3>
-        {% endif %}
+<div class="container mt-5">
 
-    </div><br>
-    <div class="row">
-        {% for project in projects %}
-        <div class="col-lg-4 col-lg-4 col-lg-4">
-            <div class="card ">
-                <img src="{{project.project_image.url}}"  class="card-img-top img-fluid" alt="{{project.name}}" >
-                <div class="card-text text-center" style="padding: 20px;">
-                    <h4 style="font-weight: bold;">{{project.name}}</h4>
-                    <small class="text-muted" style="font-family: Arial, Helvetica, sans-serif;">{{project.description | slice:":100" }}...</small><br><br>
-                    <a class="btn btn-info" style="border-radius: 25px;" href="/awwards/project/{{project.id}}" >Project details & Rating</a><br><br>
-                </div>
-            </div>
+<div class="row">
+    {% if projects %}
+    <p>Found {{ projects|length }} of searched term {{message}}</p>
+    {% else %}
+    <p> Found 0 projects for the search term {{message}}</p>
+    {% endif %}
 
-        </div>
-        {% endfor %} 
-    </div>  
 </div>
-{% endblock content %}
+
+<div class="row">
+
+{% if projects %}
+    {% for projects in projects %}
+    <div class="col-sm-6">
+        <img src="{{projects.project_image.url}}" height="200px" width="300px" alt="">
+        
+    </div>
+    <div class="col-md-4">
+        <h3><u>{{project.title}}</u></h3>
+        <h4>Description:</h4> <p>{{projects.description}}</p>
+        <p class="text-muted"> Developed by:  {{projects.profile}} </p>
+
+        <a href="{{projects.link}}" class="btn btn-info me-3" target="_blank">Project Link</a>
+        <a href="#" class="btn btn-info">Project Rating</a>
+        
+
+    </div>
+    {% endfor %}
+{% endif %}
+</div>
+<a href="{% url 'index' %}" class="btn btn-dark my-3">Go Back</a>
+</div>
+{% endblock %}

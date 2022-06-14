@@ -16,12 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from grandawards.views import UserProfile
+from grandawards import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('grandawards.urls')),
+    # User Authentication
+
+    path('sign-up/',views.register,name='sign-up'),
+    path('login/',auth_views.LoginView.as_view(template_name = 'registration/sign-in.html'),name='sign-in'),
+    path('sign-out/', views.signout, name='sign-out'),
     
         # profile
     path('<username>/', UserProfile, name='profile'),
-    path('<username>/saved/', UserProfile, name='profilefavourite'),
 ]
