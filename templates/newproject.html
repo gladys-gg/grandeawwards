@@ -10,40 +10,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <script src="https://kit.fontawesome.com/fc1e235b2e.js"></script>
-<link rel="stylesheet" href="{% static 'assets2/style.css' %}">
-<title>Instagram Login Form</title>
+<title>Post A Project</title>
 </head>
 
 <body>
 
-<div id="wrapper">
-    <div class="container">
-    <div class="phone-app-ddemo"></div>
-    <div class="form-data">
+    <div class="container m-4">
+    <div class="phone-app-ddemo">
+    <div class="form-data card" style="margin-left: 30px; align-items: center;border:1px solid #ccc; border-radius: 5px;">
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
         <div class="logo">
-            <h3 style="padding: 20px; font-size: 20px;">Create New Post</h3>
+            <h3 style="padding: 20px; font-size: 20px;color: rgb(76, 164, 223)">Post A Project</h3>
         </div>
         
-        {{form.title}} <br>
-        {{form.project_image}} <br>
-        {{form.description}} <br>
-        {{form.link}} <br>
-        <button class="form-btn" type="submit">Post</button>
+            {{form.as_p}}
+        <button class="btn btn-dark mb-5" type="submit">Post</button>
         
         </form>
         
     </div>
     </div>
 
-    <footer>
-    <div class="container">    
-        <div class="copyright-notice">
-        &copy 2022 Instagram
-        </div>
-    </div>
-    </footer>
+
 
 </div>
 
